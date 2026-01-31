@@ -1,0 +1,281 @@
+[
+    {
+        "query": "veg pizza",
+        "description": "STRICT_QUERY: 'veg pizza' should return dishes matching 'pizza'",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectDishNameContains": [
+            "pizza",
+            "margherita",
+            "funghi",
+            "vesuvio",
+            "capricciosa"
+        ],
+        "expectMinMatches": 1
+    },
+    {
+        "query": "vegan options",
+        "description": "STRICT_DIET: 'vegan options' should strictly return vegan dishes",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectContentContains": [
+            "vegan"
+        ],
+        "expectMinMatches": 1
+    },
+    {
+        "query": "any veg pizza",
+        "description": "Veg pizza - should filter to pizza only",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectDishNameContains": [
+            "pizza",
+            "margherita",
+            "funghi"
+        ],
+        "rejectDishNameContains": [
+            "bruschetta",
+            "antipasto",
+            "aloo"
+        ]
+    },
+    {
+        "query": "anything veg",
+        "description": "Generic veg - should return all vegetarian dishes",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMinMatches": 5
+    },
+    {
+        "query": "halal",
+        "description": "Halal tag only - should return halal dishes",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1
+    },
+    {
+        "query": "vegan pizza stockholm",
+        "description": "Vegan pizza with city - may return fallback",
+        "expectRestaurants": true
+    },
+    {
+        "query": "butter chicken",
+        "description": "Simple dish search",
+        "expectRestaurants": true,
+        "expectMinMatches": 1,
+        "expectDishNameContains": [
+            "butter",
+            "chicken"
+        ]
+    },
+    {
+        "query": "anyone have butter chicken",
+        "description": "Natural language dish search",
+        "expectRestaurants": true,
+        "expectMinMatches": 1
+    },
+    {
+        "query": "butter chicken",
+        "expectedDish": "Butter Chicken",
+        "minRank": 3,
+        "description": "Precision: Butter chicken should be top result"
+    },
+    {
+        "query": "soup",
+        "expectedDish": "Tom Yam Koong",
+        "minRank": 5,
+        "description": "Multilingual: 'soup' (English) should find 'Tom Yam Koong' (in Soppor section)"
+    },
+    {
+        "query": "does indian bites butter chicken is halal",
+        "description": "TAG_CHECK: Butter chicken halal - expect deterministic tagged answer",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMinMatches": 1,
+        "expectContentContains": [
+            "Butter Chicken",
+            "tagged"
+        ],
+        "isTagCheck": true
+    },
+    {
+        "query": "dal makhani",
+        "description": "Indian dish with spelling variation",
+        "expectRestaurants": true,
+        "expectMinMatches": 1
+    },
+    {
+        "query": "does indian bites dal makhani is vegetarian",
+        "description": "TAG_CHECK: Dal makhani vegetarian verification (fuzzy match)",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMinMatches": 1,
+        "expectContentContains": [
+            "vegetarian"
+        ],
+        "isTagCheck": true
+    },
+    {
+        "query": "lamm roganjosh",
+        "description": "Dish with alternate spelling",
+        "expectRestaurants": true,
+        "expectMinMatches": 1
+    },
+    {
+        "query": "what is funghi",
+        "description": "Definition question - should explain and show dish",
+        "expectRestaurants": true,
+        "expectContentContains": [
+            "funghi"
+        ]
+    },
+    {
+        "query": "show me pizza options",
+        "description": "Show menu with dish query",
+        "expectRestaurants": true
+    },
+    {
+        "query": "find halal butter chicken",
+        "description": "Tag + dish combined search",
+        "expectRestaurants": true,
+        "expectMinMatches": 1
+    },
+    {
+        "query": "kosher",
+        "description": "Tag with no data - should return fallback gracefully",
+        "expectRestaurants": true,
+        "expectFallback": true
+    },
+    {
+        "query": "pull menu of indian bites",
+        "description": "MENU_BY_RESTAURANT: Fresh menu pull returns InlineMenuCard UI",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMaxRestaurants": 1,
+        "expectMinMatches": 4,
+        "expectContentContains": [
+            "Indian Bites"
+        ],
+        "expectFallback": false
+    },
+    {
+        "query": "chicken korma",
+        "description": "Common Indian dish",
+        "expectRestaurants": true,
+        "expectMinMatches": 1
+    },
+    {
+        "query": "is daal makhni at indian bites vegetarian",
+        "description": "TAG_CHECK: Daal Makhni (DB spelling) vegetarian check",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMinMatches": 1,
+        "expectContentContains": [
+            "vegetarian"
+        ],
+        "isTagCheck": true
+    },
+    {
+        "query": "anything vegetarian",
+        "description": "LIMITER: Max 5 restaurants returned",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMaxRestaurants": 5
+    },
+    {
+        "query": "anything veg",
+        "description": "LIMITER: Max 3 dishes per restaurant",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMaxDishesPerRestaurant": 4
+    },
+    {
+        "query": "anything veg in gothenburg",
+        "description": "TRUNCATION: Large result set returns truncated=true (dish-level or restaurant-level)",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectTruncated": true
+    },
+    {
+        "query": "Indian Bites",
+        "description": "RESTAURANT_PROFILE: Restaurant name lookup returns single profile",
+        "expectRestaurants": true,
+        "expectMinRestaurants": 1,
+        "expectMaxRestaurants": 1,
+        "expectFollowupChips": [
+            "Ask about this restaurant"
+        ]
+    },
+    {
+        "query": "butter chicken",
+        "description": "DISH_PRECISION: Specific dish query returns matching dish",
+        "expectRestaurants": true,
+        "expectMinMatches": 1,
+        "expectDishNameContains": [
+            "butter chicken"
+        ]
+    },
+    {
+        "query": "chicken korma",
+        "description": "DISH_PRECISION: Korma query returns korma, not butter chicken",
+        "expectRestaurants": true,
+        "expectMinMatches": 1,
+        "expectDishNameContains": [
+            "korma"
+        ]
+    },
+    {
+        "query": "vegane pizza",
+        "description": "INVARIANT (DE): 'vegane pizza' must find pizza dishes with vegan tag",
+        "expectRestaurants": true,
+        "expectEveryMatchContainsToken": [
+            "pizza"
+        ],
+        "expectEveryMatchDietaryTag": [
+            "vegan"
+        ]
+    },
+    {
+        "query": "vegansk pizza",
+        "description": "INVARIANT (DA): 'vegansk pizza' must find pizza dishes with vegan tag",
+        "expectRestaurants": true,
+        "expectEveryMatchContainsToken": [
+            "pizza"
+        ],
+        "expectEveryMatchDietaryTag": [
+            "vegan"
+        ]
+    },
+    {
+        "query": "pizza vegansk",
+        "description": "INVARIANT (NO): 'pizza vegansk' must find pizza dishes with vegan tag",
+        "expectRestaurants": true,
+        "expectEveryMatchContainsToken": [
+            "pizza"
+        ],
+        "expectEveryMatchDietaryTag": [
+            "vegan"
+        ]
+    },
+    {
+        "query": "vegaaninen pizza",
+        "description": "INVARIANT (FI): 'vegaaninen pizza' must find pizza dishes with vegan tag",
+        "expectRestaurants": true,
+        "expectEveryMatchContainsToken": [
+            "pizza"
+        ],
+        "expectEveryMatchDietaryTag": [
+            "vegan"
+        ]
+    },
+    {
+        "query": "glutenfrei pizza",
+        "description": "INVARIANT (DE): 'glutenfrei pizza' must find pizza dishes with gluten-free tag",
+        "expectRestaurants": true,
+        "expectEveryMatchContainsToken": [
+            "pizza"
+        ],
+        "expectEveryMatchDietaryTag": [
+            "gluten-free"
+        ]
+    }
+]
